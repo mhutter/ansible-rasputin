@@ -1,0 +1,21 @@
+---
+- name: Install HAProxy
+  package:
+    name: haproxy
+    state: present
+  tags: package
+
+- name: Configure HAProxy
+  template:
+    dest: /etc/haproxy/haproxy.cfg
+    src: haproxy.cfg
+    owner: root
+    group: root
+    mode: '0644'
+  notify:
+    - reload haproxy
+
+- name: Ensure HAProxy is running
+  service:
+    name: haproxy
+    state: started

@@ -1,0 +1,17 @@
+---
+rasputin_cfg_root: /opt/rasputin
+rasputin_data_root: /srv
+rasputin_pki_root: /etc/pki
+
+# Pi-hole
+rasputin_pihole_root: '{{ rasputin_data_root }}/pihole'
+rasputin_pihole_upstream_dns2: 'no'
+
+# Registry
+rasputin_registry_root: '{{ rasputin_data_root }}/registry'
+
+# MinIO
+rasputin_minio_root: '{{ rasputin_data_root }}/minio'
+
+# Vault
+rasputin_vault_root: '{{ rasputin_data_root }}/vault'

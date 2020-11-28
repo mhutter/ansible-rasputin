@@ -1,0 +1,8 @@
+---
+- name: reload haproxy
+  service:
+    name: haproxy
+    state: reloaded
+
+- name: update certificates
+  command: /etc/letsencrypt/renewal-hooks/deploy/rasputin.sh

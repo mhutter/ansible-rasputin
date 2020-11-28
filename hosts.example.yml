@@ -1,0 +1,16 @@
+---
+rpi:
+  vars:
+    rasputin_domain: example.com
+    rasputin_minio_access_key: ???
+    rasputin_minio_secret_key: ???
+    rasputin_pihole_upstream_dns1: ???
+    rasputin_pihole_webpassword: ???
+    rasputin_transmission_username: ???
+    rasputin_transmission_password: ???
+    rasputin_registry_upstream_username: ???
+    rasputin_registry_upstream_password: ???
+    rasputin_watchtower_slack_url: ???
+
+  hosts:
+    rasputin: {}
