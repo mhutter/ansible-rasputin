@@ -18,8 +18,6 @@
   loop:
     - path: docker-compose.yml
     - path: registry.yml
-    - path: vault.hcl
-      owner: 100
   tags: config
 
 - name: Create data directories
@@ -39,9 +37,6 @@
     - path: '{{ rasputin_minio_root }}'
       owner: root
       group: root
-    - path: '{{ rasputin_vault_root }}'
-      owner: 100
-      mode: '0750'
     - path: '{{ rasputin_data_root }}/transmission'
     - path: '{{ rasputin_data_root }}/torrents'
     - path: '{{ rasputin_data_root }}/plex'

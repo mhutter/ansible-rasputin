@@ -16,8 +16,6 @@
     - path: '{{ rasputin_pki_root }}'
     - path: '{{ rasputin_pki_root }}/haproxy'
     - path: '{{ rasputin_pki_root }}/registry'
-    - path: '{{ rasputin_pki_root }}/vault'
-      owner: 100
 
 - name: Install certbot renewal-hook
   template:

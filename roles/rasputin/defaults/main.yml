@@ -12,6 +12,3 @@ rasputin_registry_root: '{{ rasputin_data_root }}/registry'
 
 # MinIO
 rasputin_minio_root: '{{ rasputin_data_root }}/minio'
-
-# Vault
-rasputin_vault_root: '{{ rasputin_data_root }}/vault'

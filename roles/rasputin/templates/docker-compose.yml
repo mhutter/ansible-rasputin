@@ -76,19 +76,6 @@ services:
       - '{{ rasputin_minio_root }}:/data'
     restart: unless-stopped
 
-  vault:
-    image: vault:latest
-    command: ['vault', 'server', '-config', '/config.hcl']
-    ports:
-      - 127.0.0.1:8200:8200/tcp
-    volumes:
-      - '{{ rasputin_vault_root }}:/vault/file'
-      - '{{ rasputin_cfg_root }}/vault.hcl:/config.hcl:ro'
-      - '{{ rasputin_pki_root }}/vault:/certs:ro'
-    cap_add:
-      - IPC_LOCK
-    restart: unless-stopped
-
   watchtower:
     image: containrrr/watchtower:latest
     environment:

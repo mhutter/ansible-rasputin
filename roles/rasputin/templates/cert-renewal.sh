@@ -15,12 +15,9 @@ for s in "${SITES[@]}"; do
 done
 systemctl reload haproxy.service
 
-# Prepare certificate for vault and registry
-for s in vault registry; do
+# Prepare certificate for registry
+for s in registry; do
   for t in cert privkey; do
     cat "/etc/letsencrypt/live/${s}.${DOMAIN}/${t}.pem" > "{{ rasputin_pki_root }}/${s}/${t}.pem"
   done
 done
-
-# Vault-specifics
-killall -s SIGHUP vault || :
