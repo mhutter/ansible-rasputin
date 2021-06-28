@@ -6,6 +6,7 @@ SITES=(
   pihole
   registry
   transmission
+  vaultwarden
 )
 
 # Prepare certificates for haproxy

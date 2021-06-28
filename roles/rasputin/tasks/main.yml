@@ -41,6 +41,10 @@
     - path: '{{ rasputin_data_root }}/torrents'
     - path: '{{ rasputin_data_root }}/plex'
     - path: '{{ rasputin_data_root }}/media'
+    - path: '{{ rasputin_vaultwarden_root }}'
+      owner: root
+      group: root
+      mode: '0750'
   tags: config
 
 - import_tasks: certificates.yml

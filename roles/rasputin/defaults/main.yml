@@ -12,3 +12,6 @@ rasputin_registry_root: '{{ rasputin_data_root }}/registry'
 
 # MinIO
 rasputin_minio_root: '{{ rasputin_data_root }}/minio'
+
+# Bitwarden
+rasputin_vaultwarden_root: '{{ rasputin_data_root }}/vaultwarden'
