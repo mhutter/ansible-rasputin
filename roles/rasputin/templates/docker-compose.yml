@@ -79,8 +79,9 @@ services:
   vaultwarden:
     image: vaultwarden/server:latest
     environment:
-      DOMAIN: 'https://vaultwarden.{{ rasputin_domain }}:'
-      SIGNUPS_DOMAINS_WHITELIST: '{{ rasputin_vaultwarden_signups_whitelist }}'
+      DOMAIN: 'https://vaultwarden.{{ rasputin_domain }}'
+      ADMIN_TOKEN: '{{ rasputin_vaultwarden_admin_token }}'
+      HIBP_API_KEY: '{{ rasputin_vaultwarden_hibp_api_key }}'
       SMTP_FROM: '{{ rasputin_vaultwarden_smtp_from }}'
       SMTP_HOST: '{{ rasputin_vaultwarden_smtp_host }}'
       SMTP_PORT: '587'
