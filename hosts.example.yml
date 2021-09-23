@@ -4,7 +4,7 @@ rpi:
     rasputin_domain: example.com
     rasputin_minio_access_key: ???
     rasputin_minio_secret_key: ???
-    rasputin_pihole_upstream_dns1: ???
+    rasputin_pihole_upstream_dns: [???]
     rasputin_pihole_webpassword: ???
     rasputin_transmission_username: ???
     rasputin_transmission_password: ???
