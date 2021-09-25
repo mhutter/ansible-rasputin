@@ -39,7 +39,7 @@ services:
       TZ: Europe/Zurich
     volumes:
       - '{{ rasputin_data_root }}/transmission:/config'
-      - '{{ rasputin_data_root }}/media:/downloads'
+      - '{{ rasputin_minio_root }}/media:/downloads'
       - '{{ rasputin_data_root }}/torrents:/watch'
     ports:
       - '51413:51413/tcp'
@@ -56,7 +56,7 @@ services:
       VERSION: docker
     volumes:
       - '{{ rasputin_data_root }}/plex:/config'
-      - '{{ rasputin_data_root }}/media:/media'
+      - '{{ rasputin_minio_root }}/media:/media'
     restart: unless-stopped
 
   minio:
