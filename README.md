@@ -2,12 +2,18 @@
 
 ## Create certificates
 
-Get GCloud service account JSON, put in `/root/.secrets/certbot/google.json`
+Get Account API token (unfortunately the versions available are too old for custom API tokens).
+
+Prepare `/root/.secrets/certbot/cloudflare.ini`:
+
+```ini
+dns_cloudflare_email = <ACCOUNT EMAIL>
+dns_cloudflare_api_key = <TOKEN>
+```
 
 To get a certificate, use:
 
     certbot certonly \
-      --dns-google \
-      --dns-google-credentials /root/.secrets/certbot/google.json \
-      --dns-google-propagation-seconds 120 \
+      --dns-cloudflare \
+      --dns-cloudflare-credentials /root/.secrets/certbot/cloudflare.ini \
       -d $domain
