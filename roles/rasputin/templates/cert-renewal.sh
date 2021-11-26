@@ -1,17 +1,10 @@
 #!/bin/bash
-DOMAIN='{{ rasputin_domain }}'
-
-SITES=(
-  objects
-  pihole
-  registry
-  transmission
-  vaultwarden
-)
+set -e -u -o pipefail
 
 # Prepare certificates for haproxy
-for s in "${SITES[@]}"; do
-  site="${s}.${DOMAIN}"
+ls -1 /etc/letsencrypt/live/ | \
+grep -v README | \
+while read -r site; do
   cat /etc/letsencrypt/live/"${site}"/{fullchain,privkey}.pem > "{{ rasputin_pki_root }}/haproxy/${site}.pem"
 done
 systemctl reload haproxy.service
@@ -22,3 +15,5 @@ for s in registry; do
     cat "/etc/letsencrypt/live/${s}.${DOMAIN}/${t}.pem" > "{{ rasputin_pki_root }}/${s}/${t}.pem"
   done
 done
+
+curl -fsS -m 10 --retry 5 -o /dev/null https://hc-ping.com/fb3b7853-613e-4108-a9ee-c7935eb44edb
