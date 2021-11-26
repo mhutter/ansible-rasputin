@@ -1,20 +1,20 @@
 ---
 - name: Create installation root
   file:
-    path: '{{ rasputin_cfg_root }}'
+    path: "{{ rasputin_cfg_root }}"
     state: directory
     owner: root
     group: root
-    mode: '0700'
+    mode: "0700"
   tags: config
 
 - name: Template config files
   template:
-    dest: '{{ rasputin_cfg_root }}/{{ item.path }}'
-    src: '{{ item.path }}'
+    dest: "{{ rasputin_cfg_root }}/{{ item.path }}"
+    src: "{{ item.path }}"
     owner: '{{ item.owner | default("root") }}'
     group: root
-    mode: '0600'
+    mode: "0600"
   loop:
     - path: docker-compose.yml
     - path: registry.yml
@@ -22,29 +22,29 @@
 
 - name: Create data directories
   file:
-    path: '{{ item.path }}'
+    path: "{{ item.path }}"
     state: directory
-    owner: '{{ item.owner | default(1000) }}'
-    group: '{{ item.group | default(1000) }}'
+    owner: "{{ item.owner | default(1000) }}"
+    group: "{{ item.group | default(1000) }}"
     mode: '{{ item.mode | default("0755") }}'
   loop:
-    - path: '{{ rasputin_pihole_root }}'
+    - path: "{{ rasputin_pihole_root }}"
       owner: root
       group: root
-    - path: '{{ rasputin_registry_root }}'
+    - path: "{{ rasputin_registry_root }}"
       owner: root
       group: root
-    - path: '{{ rasputin_minio_root }}'
+    - path: "{{ rasputin_minio_root }}"
       owner: root
       group: root
-    - path: '{{ rasputin_data_root }}/transmission'
-    - path: '{{ rasputin_data_root }}/torrents'
-    - path: '{{ rasputin_data_root }}/plex'
-    - path: '{{ rasputin_data_root }}/media'
-    - path: '{{ rasputin_vaultwarden_root }}'
+    - path: "{{ rasputin_data_root }}/transmission"
+    - path: "{{ rasputin_data_root }}/torrents"
+    - path: "{{ rasputin_data_root }}/plex"
+    - path: "{{ rasputin_data_root }}/media"
+    - path: "{{ rasputin_vaultwarden_root }}"
       owner: root
       group: root
-      mode: '0750'
+      mode: "0750"
   tags: config
 
 - import_tasks: certificates.yml
@@ -55,4 +55,4 @@
 - name: Start services
   command:
     cmd: docker-compose up -d
-    chdir: '{{ rasputin_cfg_root }}'
+    chdir: "{{ rasputin_cfg_root }}"

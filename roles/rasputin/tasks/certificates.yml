@@ -7,15 +7,15 @@
 
 - name: Create PKI dirs
   file:
-    path: '{{ item.path }}'
+    path: "{{ item.path }}"
     state: directory
     owner: '{{ item.owner | default("root") }}'
     group: '{{ item.group | default("root") }}'
     mode: '{{ item.mode | default("0700") }}'
   loop:
-    - path: '{{ rasputin_pki_root }}'
-    - path: '{{ rasputin_pki_root }}/haproxy'
-    - path: '{{ rasputin_pki_root }}/registry'
+    - path: "{{ rasputin_pki_root }}"
+    - path: "{{ rasputin_pki_root }}/haproxy"
+    - path: "{{ rasputin_pki_root }}/registry"
 
 - name: Install certbot renewal-hook
   template:
@@ -23,13 +23,13 @@
     src: cert-renewal.sh
     owner: root
     group: root
-    mode: '0744'
+    mode: "0744"
   notify:
     - update certificates
 
 - name: Install certbot autorenew cronjob
   cron:
     name: certbot renew
-    job: '/usr/bin/certbot renew >> /var/log/certbot-renewal.log'
-    minute: '14'
-    hour: '4'
+    job: "/usr/bin/certbot renew >> /var/log/certbot-renewal.log"
+    minute: "14"
+    hour: "4"

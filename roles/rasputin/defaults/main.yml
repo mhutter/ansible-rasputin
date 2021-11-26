@@ -4,14 +4,14 @@ rasputin_data_root: /srv
 rasputin_pki_root: /etc/pki
 
 # Pi-hole
-rasputin_pihole_root: '{{ rasputin_data_root }}/pihole'
-rasputin_pihole_upstream_dns2: 'no'
+rasputin_pihole_root: "{{ rasputin_data_root }}/pihole"
+rasputin_pihole_upstream_dns2: "no"
 
 # Registry
-rasputin_registry_root: '{{ rasputin_data_root }}/registry'
+rasputin_registry_root: "{{ rasputin_data_root }}/registry"
 
 # MinIO
-rasputin_minio_root: '{{ rasputin_data_root }}/minio'
+rasputin_minio_root: "{{ rasputin_data_root }}/minio"
 
 # Bitwarden
-rasputin_vaultwarden_root: '{{ rasputin_data_root }}/vaultwarden'
+rasputin_vaultwarden_root: "{{ rasputin_data_root }}/vaultwarden"
