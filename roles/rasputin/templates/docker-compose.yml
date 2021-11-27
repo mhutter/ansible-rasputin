@@ -2,7 +2,7 @@
 version: "3"
 services:
   pihole:
-    image: pihole/pihole:latest
+    image: "docker.io/pihole/pihole:latest"
     hostname: rasputin
     environment:
       TZ: Europe/Zurich
@@ -12,7 +12,7 @@ services:
       ServerIP: "{{ ansible_default_ipv4.address }}"
       VIRTUAL_HOST: "pihole.{{ rasputin_domain }}"
     dns:
-      - 127.0.0.1
+      - "127.0.0.1"
       - "{{ rasputin_pihole_upstream_dns[0] }}"
     network_mode: host
     volumes:
@@ -30,7 +30,7 @@ services:
     restart: unless-stopped
 
   transmission:
-    image: ghcr.io/linuxserver/transmission:latest
+    image: "ghcr.io/linuxserver/transmission:latest"
     environment:
       USER: "{{ rasputin_transmission_username }}"
       PASS: "{{ rasputin_transmission_password }}"
@@ -39,7 +39,7 @@ services:
       TZ: Europe/Zurich
     volumes:
       - "{{ rasputin_data_root }}/transmission:/config"
-      - "{{ rasputin_minio_root }}/media:/downloads"
+      - "{{ minio_data_dir }}/media:/downloads"
       - "{{ rasputin_data_root }}/torrents:/watch"
     ports:
       - "51413:51413/tcp"
@@ -48,7 +48,7 @@ services:
     restart: unless-stopped
 
   plex:
-    image: ghcr.io/linuxserver/plex:latest
+    image: "ghcr.io/linuxserver/plex:latest"
     network_mode: host
     environment:
       PUID: "1000"
@@ -56,25 +56,11 @@ services:
       VERSION: docker
     volumes:
       - "{{ rasputin_data_root }}/plex:/config"
-      - "{{ rasputin_minio_root }}/media:/media"
-    restart: unless-stopped
-
-  minio:
-    image: minio/minio:latest
-    environment:
-      MINIO_ACCESS_KEY: "{{ rasputin_minio_access_key }}"
-      MINIO_SECRET_KEY: "{{ rasputin_minio_secret_key }}"
-    command:
-      - server
-      - /data
-    ports:
-      - 127.0.0.1:9000:9000/tcp
-    volumes:
-      - "{{ rasputin_minio_root }}:/data"
+      - "{{ minio_data_dir }}/media:/media"
     restart: unless-stopped
 
   vaultwarden:
-    image: vaultwarden/server:latest
+    image: "docker.io/vaultwarden/server:latest"
     environment:
       DOMAIN: "https://vaultwarden.{{ rasputin_domain }}"
       ADMIN_TOKEN: "{{ rasputin_vaultwarden_admin_token }}"
@@ -87,14 +73,14 @@ services:
       SMTP_PASSWORD: "{{ rasputin_vaultwarden_smtp_password }}"
       WEBSOCKET_ENABLED: "true" # Enable WebSocket notifications.
     ports:
-      - 127.0.0.1:4000:80/tcp
-      - 127.0.0.1:4012:3012/tcp
+      - "127.0.0.1:4000:80/tcp"
+      - "127.0.0.1:4012:3012/tcp"
     volumes:
       - "{{ rasputin_vaultwarden_root }}:/data"
     restart: unless-stopped
 
   watchtower:
-    image: containrrr/watchtower:latest
+    image: "docker.io/containrrr/watchtower:latest"
     environment:
       WATCHTOWER_CLEANUP: "true"
       WATCHTOWER_POLL_INTERVAL: "3600"
@@ -102,5 +88,5 @@ services:
       WATCHTOWER_NOTIFICATION_SLACK_HOOK_URL: "{{ rasputin_watchtower_slack_url }}"
       WATCHTOWER_NOTIFICATION_SLACK_IDENTIFIER: watchtower-rasputin
     volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
+      - "/var/run/docker.sock:/var/run/docker.sock"
     restart: unless-stopped

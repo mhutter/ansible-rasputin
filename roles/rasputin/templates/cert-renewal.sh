@@ -1,6 +1,8 @@
 #!/bin/bash
 set -e -u -o pipefail
 
+DOMAIN='{{ rasputin_domain }}'
+
 # Prepare certificates for haproxy
 ls -1 /etc/letsencrypt/live/ | \
 grep -v README | \

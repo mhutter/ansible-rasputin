@@ -1,0 +1,49 @@
+---
+- name: Download Minio
+  ansible.builtin.get_url:
+    url: "https://dl.min.io/server/minio/release/linux-arm/minio.{{ minio_version }}"
+    dest: "/usr/local/bin/minio.{{ minio_version }}"
+    checksum: "sha256:https://dl.min.io/server/minio/release/linux-arm/minio.{{ minio_version }}.sha256sum"
+    owner: root
+    group: root
+    mode: "0755"
+
+- name: Link Minio binary
+  ansible.builtin.file:
+    src: "/usr/local/bin/minio.{{ minio_version }}"
+    dest: /usr/local/bin/minio
+    state: link
+  notify:
+    - restart minio
+
+- name: Prepare /etc/default/minio
+  ansible.builtin.copy:
+    dest: /etc/default/minio
+    content: |
+      MINIO_OPTS="--address 127.0.0.1:{{ minio_server_port }} --console-address 127.0.0.1:{{ minio_console_port }}"
+      MINIO_VOLUMES="{{ minio_data_dir }}"
+      MINIO_ROOT_USER="{{ minio_root_user }}"
+      MINIO_ROOT_PASSWORD='{{ minio_root_password }}'
+      MINIO_BROWSER_REDIRECT_URL="https://{{ minio_console_url }}/"
+  notify:
+    - restart minio
+
+- name: Prepare /etc/systemd/system/minio.service
+  ansible.builtin.template:
+    src: templates/minio.service
+    dest: /etc/systemd/system/minio.service
+  notify:
+    - restart minio
+
+- name: Ensure local traffic stays local
+  ansible.builtin.lineinfile:
+    path: /etc/hosts
+    search_string: "{{ minio_server_url }}"
+    line: "{{ ansible_default_ipv4.address }} {{ minio_server_url }}"
+
+- name: Enable service and ensure it is not masked
+  ansible.builtin.systemd:
+    name: minio
+    state: started
+    enabled: true
+    masked: false

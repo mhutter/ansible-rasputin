@@ -20,6 +20,12 @@
     - path: registry.yml
   tags: config
 
+- name: Create system users
+  include_tasks: system-user.yml
+  loop:
+    - user: "{{ minio_user }}"
+      group: "{{ minio_group }}"
+
 - name: Create data directories
   file:
     path: "{{ item.path }}"
@@ -34,9 +40,10 @@
     - path: "{{ rasputin_registry_root }}"
       owner: root
       group: root
-    - path: "{{ rasputin_minio_root }}"
-      owner: root
-      group: root
+    - path: "{{ minio_data_dir }}"
+      owner: "{{ minio_user }}"
+      group: "{{ minio_group }}"
+      mode: "0700"
     - path: "{{ rasputin_data_root }}/transmission"
     - path: "{{ rasputin_data_root }}/torrents"
     - path: "{{ rasputin_data_root }}/plex"
@@ -51,6 +58,8 @@
   tags: certs
 - import_tasks: haproxy.yml
   tags: haproxy
+- import_tasks: minio.yml
+  tags: minio
 
 - name: Start services
   command:

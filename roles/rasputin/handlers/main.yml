@@ -6,3 +6,9 @@
 
 - name: update certificates
   command: /etc/letsencrypt/renewal-hooks/deploy/rasputin.sh
+
+- name: restart minio
+  ansible.builtin.systemd:
+    name: minio
+    state: restarted
+    daemon_reload: yes

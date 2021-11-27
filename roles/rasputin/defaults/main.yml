@@ -11,7 +11,15 @@ rasputin_pihole_upstream_dns2: "no"
 rasputin_registry_root: "{{ rasputin_data_root }}/registry"
 
 # MinIO
-rasputin_minio_root: "{{ rasputin_data_root }}/minio"
+minio_server_url: objects.{{ rasputin_domain }}
+minio_console_url: minio.{{ rasputin_domain }}
+minio_server_port: 9000
+minio_console_port: 9001
+# renovate: datasource=github-tags depName=minio/minio
+minio_version: RELEASE.2021-11-24T23-19-33Z
+minio_data_dir: "{{ rasputin_data_root }}/minio"
+minio_user: minio
+minio_group: minio
 
 # Bitwarden
 rasputin_vaultwarden_root: "{{ rasputin_data_root }}/vaultwarden"

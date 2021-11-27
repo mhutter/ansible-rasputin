@@ -1,0 +1,12 @@
+---
+- name: "Prepare group {{ item.group }}"
+  ansible.builtin.group:
+    name: "{{ item.group }}"
+    system: true
+
+- name: "Prepare user {{ item.user }}"
+  ansible.builtin.user:
+    name: "{{ item.user }}"
+    create_home: false
+    group: "{{ item.group }}"
+    system: true
