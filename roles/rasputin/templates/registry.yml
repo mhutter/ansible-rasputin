@@ -1,12 +1,21 @@
 ---
 version: "0.1"
+
 http:
   addr: "0.0.0.0:5000"
-  host: "https://registry.{{ rasputin_domain }}"
+  host: "https://{{ registry_url }}"
+
 storage:
-  filesystem:
-    rootdirectory: /registry
+  s3:
+    accesskey: "{{ registry_s3_accesskey }}"
+    secretkey: "{{ registry_s3_secretkey }}"
+    bucket: "{{ registry_s3_bucket }}"
+    region: "{{ registry_s3_region }}"
+    regionendpoint: "{{ registry_s3_endpoint }}"
+  cache:
+    blobdescriptor: inmemory
+
 proxy:
   remoteurl: "https://registry-1.docker.io"
-  username: "{{ rasputin_registry_upstream_username }}"
-  password: "{{ rasputin_registry_upstream_password }}"
+  username: "{{ registry_upstream_username }}"
+  password: "{{ registry_upstream_password }}"

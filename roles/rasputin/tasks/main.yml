@@ -37,9 +37,6 @@
     - path: "{{ rasputin_pihole_root }}"
       owner: root
       group: root
-    - path: "{{ rasputin_registry_root }}"
-      owner: root
-      group: root
     - path: "{{ minio_data_dir }}"
       owner: "{{ minio_user }}"
       group: "{{ minio_group }}"

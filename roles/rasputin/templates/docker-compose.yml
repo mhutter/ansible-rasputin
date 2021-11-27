@@ -24,9 +24,8 @@ services:
     image: registry:2
     volumes:
       - "{{ rasputin_cfg_root }}/registry.yml:/etc/docker/registry/config.yml:ro"
-      - "{{ rasputin_registry_root }}:/registry"
     ports:
-      - "127.0.0.1:5000:5000/tcp"
+      - "127.0.0.1:{{ registry_port }}:{{ registry_port }}/tcp"
     restart: unless-stopped
 
   transmission:

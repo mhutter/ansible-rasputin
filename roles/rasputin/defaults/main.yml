@@ -8,7 +8,9 @@ rasputin_pihole_root: "{{ rasputin_data_root }}/pihole"
 rasputin_pihole_upstream_dns2: "no"
 
 # Registry
-rasputin_registry_root: "{{ rasputin_data_root }}/registry"
+registry_url: "registry.{{ rasputin_domain }}"
+registry_port: 5000
+registry_s3_endpoint: "https://{{ minio_server_url }}"
 
 # MinIO
 minio_server_url: objects.{{ rasputin_domain }}
