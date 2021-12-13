@@ -1,0 +1,61 @@
+---
+- name: Check prometheus existence
+  ansible.builtin.stat:
+    path: "/usr/local/bin/prometheus.{{ prometheus_version }}"
+  register: r_stat_prometheus
+
+- when: not r_stat_prometheus.stat.exists
+  block:
+    - name: Download Prometheus
+      ansible.builtin.get_url:
+        url: "https://github.com/prometheus/prometheus/releases/download/v{{ prometheus_version }}/{{ prometheus_archive }}"
+        dest: "/tmp/{{ prometheus_archive }}"
+        checksum: "sha256:https://github.com/prometheus/prometheus/releases/download/v{{ prometheus_version }}/sha256sums.txt"
+        owner: root
+        group: root
+        mode: "0600"
+
+    - name: Unpack Prometheus
+      ansible.builtin.unarchive:
+        remote_src: true
+        src: "/tmp/{{ prometheus_archive }}"
+        dest: /tmp
+        creates: "/tmp/prometheus-{{ prometheus_version }}.linux-armv7/prometheus"
+
+    - name: Move prometheus binary
+      ansible.builtin.copy:
+        remote_src: true
+        src: "/tmp/prometheus-{{ prometheus_version }}.linux-armv7/prometheus"
+        dest: "/usr/local/bin/prometheus.{{ prometheus_version }}"
+        owner: root
+        group: root
+        mode: "0755"
+
+- name: Link Prometheus binary
+  ansible.builtin.file:
+    src: "/usr/local/bin/prometheus.{{ prometheus_version }}"
+    dest: /usr/local/bin/prometheus
+    state: link
+  notify:
+    - restart prometheus
+
+- name: Prepare /etc/systemd/system/prometheus.service
+  ansible.builtin.template:
+    src: templates/prometheus.service
+    dest: /etc/systemd/system/prometheus.service
+  notify:
+    - restart prometheus
+
+- name: Prepare prometheus config
+  ansible.builtin.template:
+    src: templates/prometheus.yml
+    dest: "{{ prometheus_config_dir }}/prometheus.yml"
+  notify:
+    - restart prometheus
+
+- name: Enable and start Prometheus
+  ansible.builtin.systemd:
+    name: prometheus
+    state: started
+    enabled: true
+    masked: false

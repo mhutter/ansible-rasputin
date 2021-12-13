@@ -25,6 +25,8 @@
   loop:
     - user: "{{ minio_user }}"
       group: "{{ minio_group }}"
+    - user: "{{ prometheus_user }}"
+      group: "{{ prometheus_group }}"
 
 - name: Create data directories
   file:
@@ -40,7 +42,13 @@
     - path: "{{ minio_data_dir }}"
       owner: "{{ minio_user }}"
       group: "{{ minio_group }}"
-      mode: "0700"
+    - path: "{{ prometheus_data_dir }}"
+      owner: "{{ prometheus_user }}"
+      group: "{{ prometheus_group }}"
+    - path: "{{ prometheus_config_dir }}"
+      owner: root
+      group: "{{ prometheus_group }}"
+      mode: "0770"
     - path: "{{ rasputin_data_root }}/transmission"
     - path: "{{ rasputin_data_root }}/torrents"
     - path: "{{ rasputin_data_root }}/plex"
@@ -53,10 +61,12 @@
 
 - import_tasks: certificates.yml
   tags: certs
-- import_tasks: haproxy.yml
-  tags: haproxy
+- import_tasks: prometheus.yml
+  tags: prometheus
 - import_tasks: minio.yml
   tags: minio
+- import_tasks: haproxy.yml
+  tags: haproxy
 
 - name: Start services
   command:

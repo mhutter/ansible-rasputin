@@ -18,10 +18,21 @@ minio_console_url: minio.{{ rasputin_domain }}
 minio_server_port: 9000
 minio_console_port: 9001
 # renovate: datasource=github-tags depName=minio/minio
-minio_version: RELEASE.2021-11-24T23-19-33Z
+minio_version: RELEASE.2021-12-10T23-03-39Z
 minio_data_dir: "{{ rasputin_data_root }}/minio"
 minio_user: minio
 minio_group: minio
 
 # Bitwarden
 rasputin_vaultwarden_root: "{{ rasputin_data_root }}/vaultwarden"
+
+# Prometheus
+prometheus_version: "2.31.1"
+prometheus_url: "prometheus.{{ rasputin_domain }}"
+prometheus_port: 9090
+prometheus_user: prometheus
+prometheus_group: prometheus
+prometheus_data_dir: "{{ rasputin_data_root }}/prometheus"
+prometheus_config_dir: /etc/prometheus
+prometheus_archive: "prometheus-{{ prometheus_version }}.linux-armv7.tar.gz"
+prometheus_retention_time: 365d
