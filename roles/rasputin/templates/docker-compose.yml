@@ -33,8 +33,8 @@ services:
     environment:
       USER: "{{ rasputin_transmission_username }}"
       PASS: "{{ rasputin_transmission_password }}"
-      PUID: "1000"
-      PGID: "1000"
+      PUID: "998" # minio
+      PGID: "992" # minio
       TZ: Europe/Zurich
     volumes:
       - "{{ rasputin_data_root }}/transmission:/config"
