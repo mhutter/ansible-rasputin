@@ -31,6 +31,38 @@
         group: root
         mode: "0755"
 
+- name: Check node_exporter existence
+  ansible.builtin.stat:
+    path: "/usr/local/bin/node_exporter.{{ node_exporter_version }}"
+  register: r_stat_node_exporter
+
+- when: not r_stat_node_exporter.stat.exists
+  block:
+    - name: Download node_exporter
+      ansible.builtin.get_url:
+        url: "https://github.com/prometheus/node_exporter/releases/download/v{{ node_exporter_version }}/{{ node_exporter_archive }}"
+        dest: "/tmp/{{ node_exporter_archive }}"
+        checksum: "sha256:https://github.com/prometheus/node_exporter/releases/download/v{{ node_exporter_version }}/sha256sums.txt"
+        owner: root
+        group: root
+        mode: "0600"
+
+    - name: Unpack node_exporter
+      ansible.builtin.unarchive:
+        remote_src: true
+        src: "/tmp/{{ node_exporter_archive }}"
+        dest: /tmp
+        creates: "/tmp/node_exporter-{{ node_exporter_version }}.linux-armv7/node_exporter"
+
+    - name: Move node_exporter binary
+      ansible.builtin.copy:
+        remote_src: true
+        src: "/tmp/node_exporter-{{ node_exporter_version }}.linux-armv7/node_exporter"
+        dest: "/usr/local/bin/node_exporter.{{ node_exporter_version }}"
+        owner: root
+        group: root
+        mode: "0755"
+
 - name: Link Prometheus binary
   ansible.builtin.file:
     src: "/usr/local/bin/prometheus.{{ prometheus_version }}"
@@ -56,6 +88,28 @@
 - name: Enable and start Prometheus
   ansible.builtin.systemd:
     name: prometheus
+    state: started
+    enabled: true
+    masked: false
+
+- name: Link node_exporter binary
+  ansible.builtin.file:
+    src: "/usr/local/bin/node_exporter.{{ node_exporter_version }}"
+    dest: /usr/local/bin/node_exporter
+    state: link
+  notify:
+    - restart node_exporter
+
+- name: Prepare /etc/systemd/system/node_exporter.service
+  ansible.builtin.template:
+    src: templates/node_exporter.service
+    dest: /etc/systemd/system/node_exporter.service
+  notify:
+    - restart node_exporter
+
+- name: Enable and start node_exporter
+  ansible.builtin.systemd:
+    name: node_exporter
     state: started
     enabled: true
     masked: false
