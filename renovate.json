@@ -1,0 +1,11 @@
+{
+  "extends": ["config:base"],
+  "assignees": ["mhutter"],
+  "regexManagers": [{
+    "fileMatch": ["\\.ya?ml$"],
+    "matchStrings": [
+      "depName=(?<depName>.*?)\\s.+_version: \"?(?<currentValue>.*?)\"?\\s"
+    ],
+    "datasourceTemplate": "github-releases"
+  }]
+}

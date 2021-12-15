@@ -17,7 +17,7 @@ minio_server_url: objects.{{ rasputin_domain }}
 minio_console_url: minio.{{ rasputin_domain }}
 minio_server_port: 9000
 minio_console_port: 9001
-# renovate: datasource=github-tags depName=minio/minio
+# renovate: depName=minio/minio
 minio_version: RELEASE.2021-12-10T23-03-39Z
 minio_data_dir: "{{ rasputin_data_root }}/minio"
 minio_user: minio
@@ -27,18 +27,22 @@ minio_group: minio
 rasputin_vaultwarden_root: "{{ rasputin_data_root }}/vaultwarden"
 
 # Prometheus
-prometheus_version: "2.31.1"
+# renovate: depName=prometheus/prometheus
+prometheus_version: v2.31.1
+prometheus_version_no_v: "{{ prometheus_version | replace('v', '') }}"
 prometheus_url: "prometheus.{{ rasputin_domain }}"
 prometheus_port: 9090
 prometheus_user: prometheus
 prometheus_group: prometheus
 prometheus_data_dir: "{{ rasputin_data_root }}/prometheus"
 prometheus_config_dir: /etc/prometheus
-prometheus_archive: "prometheus-{{ prometheus_version }}.linux-armv7.tar.gz"
+prometheus_archive: "prometheus-{{ prometheus_version_no_v }}.linux-armv7.tar.gz"
 prometheus_retention_time: 365d
 
-node_exporter_version: "1.3.1"
+# renovate: depName=prometheus/node_exporter
+node_exporter_version: v1.3.1
+node_exporter_version_no_v: "{{ node_exporter_version | replace('v', '') }}"
 node_exporter_port: 9100
-node_exporter_archive: "node_exporter-{{ node_exporter_version }}.linux-armv7.tar.gz"
+node_exporter_archive: "node_exporter-{{ node_exporter_version_no_v }}.linux-armv7.tar.gz"
 node_exporter_enabled_collectors: []
 node_exporter_disabled_collectors: []

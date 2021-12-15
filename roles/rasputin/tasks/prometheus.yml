@@ -8,9 +8,9 @@
   block:
     - name: Download Prometheus
       ansible.builtin.get_url:
-        url: "https://github.com/prometheus/prometheus/releases/download/v{{ prometheus_version }}/{{ prometheus_archive }}"
+        url: "https://github.com/prometheus/prometheus/releases/download/{{ prometheus_version }}/{{ prometheus_archive }}"
         dest: "/tmp/{{ prometheus_archive }}"
-        checksum: "sha256:https://github.com/prometheus/prometheus/releases/download/v{{ prometheus_version }}/sha256sums.txt"
+        checksum: "sha256:https://github.com/prometheus/prometheus/releases/download/{{ prometheus_version }}/sha256sums.txt"
         owner: root
         group: root
         mode: "0600"
@@ -20,12 +20,12 @@
         remote_src: true
         src: "/tmp/{{ prometheus_archive }}"
         dest: /tmp
-        creates: "/tmp/prometheus-{{ prometheus_version }}.linux-armv7/prometheus"
+        creates: "/tmp/prometheus-{{ prometheus_version_no_v }}.linux-armv7/prometheus"
 
     - name: Move prometheus binary
       ansible.builtin.copy:
         remote_src: true
-        src: "/tmp/prometheus-{{ prometheus_version }}.linux-armv7/prometheus"
+        src: "/tmp/prometheus-{{ prometheus_version_no_v }}.linux-armv7/prometheus"
         dest: "/usr/local/bin/prometheus.{{ prometheus_version }}"
         owner: root
         group: root
@@ -40,9 +40,9 @@
   block:
     - name: Download node_exporter
       ansible.builtin.get_url:
-        url: "https://github.com/prometheus/node_exporter/releases/download/v{{ node_exporter_version }}/{{ node_exporter_archive }}"
+        url: "https://github.com/prometheus/node_exporter/releases/download/{{ node_exporter_version }}/{{ node_exporter_archive }}"
         dest: "/tmp/{{ node_exporter_archive }}"
-        checksum: "sha256:https://github.com/prometheus/node_exporter/releases/download/v{{ node_exporter_version }}/sha256sums.txt"
+        checksum: "sha256:https://github.com/prometheus/node_exporter/releases/download/{{ node_exporter_version }}/sha256sums.txt"
         owner: root
         group: root
         mode: "0600"
@@ -52,12 +52,12 @@
         remote_src: true
         src: "/tmp/{{ node_exporter_archive }}"
         dest: /tmp
-        creates: "/tmp/node_exporter-{{ node_exporter_version }}.linux-armv7/node_exporter"
+        creates: "/tmp/node_exporter-{{ node_exporter_version_no_v }}.linux-armv7/node_exporter"
 
     - name: Move node_exporter binary
       ansible.builtin.copy:
         remote_src: true
-        src: "/tmp/node_exporter-{{ node_exporter_version }}.linux-armv7/node_exporter"
+        src: "/tmp/node_exporter-{{ node_exporter_version_no_v }}.linux-armv7/node_exporter"
         dest: "/usr/local/bin/node_exporter.{{ node_exporter_version }}"
         owner: root
         group: root
