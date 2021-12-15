@@ -113,3 +113,13 @@
     state: started
     enabled: true
     masked: false
+
+- name: Clean up download artifacts
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: absent
+  loop:
+    - "/tmp/{{ prometheus_archive }}"
+    - "/tmp/prometheus-{{ prometheus_version_no_v }}.linux-armv7"
+    - "/tmp/{{ node_exporter_archive }}"
+    - "/tmp/node_exporter-{{ node_exporter_version_no_v }}.linux-armv7"
