@@ -14,6 +14,7 @@ Group={{ prometheus_group }}
 ExecReload=/bin/kill -HUP $MAINPID
 ExecStart=/usr/local/bin/prometheus \
   --web.listen-address=127.0.0.1:{{ prometheus_port }} \
+  --web.page-title="mhnet Prometheus" \
   --storage.tsdb.path={{ prometheus_data_dir }} \
   --storage.tsdb.retention.time={{ prometheus_retention_time }} \
   --config.file=/etc/prometheus/prometheus.yml
