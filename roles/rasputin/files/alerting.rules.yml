@@ -1,0 +1,12 @@
+---
+groups:
+  - name: disk_alerts
+    rules:
+      - alert: DiskUsageHigh
+        expr: "disk:usage > 80"
+        annotations:
+          summary: High disk usage
+          description: >-
+            Disk usage for "{{ $labels.device }}"
+            (mounted at "{{ $labels.mountpoint }}")
+            is at {{ $value }}%

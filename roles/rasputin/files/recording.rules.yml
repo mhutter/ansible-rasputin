@@ -1,0 +1,7 @@
+---
+groups:
+  # Example rule for practice
+  - name: disk
+    rules:
+      - record: "disk:usage"
+        expr: "avg((1-(node_filesystem_avail_bytes/node_filesystem_size_bytes))*100) without (instance,job)"

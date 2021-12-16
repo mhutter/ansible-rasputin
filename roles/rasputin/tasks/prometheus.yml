@@ -85,6 +85,16 @@
   notify:
     - restart prometheus
 
+- name: Prepare prometheus rules
+  ansible.builtin.copy:
+    src: "files/{{ item }}"
+    dest: "{{ prometheus_config_dir }}/{{ item }}"
+  loop:
+    - recording.rules.yml
+    - alerting.rules.yml
+  notify:
+    - restart prometheus
+
 - name: Enable and start Prometheus
   ansible.builtin.systemd:
     name: prometheus
