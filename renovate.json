@@ -4,8 +4,9 @@
   "regexManagers": [{
     "fileMatch": ["\\.ya?ml$"],
     "matchStrings": [
-      "depName=(?<depName>.*?)\\s.+_version: \"?(?<currentValue>.*?)\"?\\s"
+      "depName=(?<depName>.*?)( versioning=(?<versioning>.*?))?\\s.+_version: \"?(?<currentValue>.*?)\"?\\s"
     ],
-    "datasourceTemplate": "github-releases"
+    "datasourceTemplate": "github-releases",
+    "versioningTemplate": "{{#if versioning}}{{{versioning}}}{{else}}semver{{/if}}"
   }]
 }
