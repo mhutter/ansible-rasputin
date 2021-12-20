@@ -4,9 +4,12 @@
   "regexManagers": [{
     "fileMatch": ["\\.ya?ml$"],
     "matchStrings": [
-      "depName=(?<depName>.*?)( versioning=(?<versioning>.*?))?\\s.+_version: \"?(?<currentValue>.*?)\"?\\s"
+      "depName=(?<depName>.*?)?\\s.+_version: \"?(?<currentValue>.*?)\"?\\s"
     ],
-    "datasourceTemplate": "github-releases",
-    "versioningTemplate": "{{#if versioning}}{{{versioning}}}{{else}}semver{{/if}}"
+    "datasourceTemplate": "github-releases"
+  }],
+  "packageRules": [{
+    "matchPackageNames": ["minio/minio"],
+    "versioning": "loose"
   }]
 }
