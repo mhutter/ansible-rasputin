@@ -3,26 +3,26 @@ rpi:
   vars:
     rasputin_domain: example.com
 
-    minio_root_user: ???
-    minio_root_password: ???
+    minio_root_user: '???'
+    minio_root_password: '???'
 
-    rasputin_pihole_upstream_dns: [???]
-    rasputin_pihole_webpassword: ???
+    rasputin_pihole_upstream_dns: ['???']
+    rasputin_pihole_webpassword: '???'
 
-    rasputin_transmission_username: ???
-    rasputin_transmission_password: ???
+    rasputin_transmission_username: '???'
+    rasputin_transmission_password: '???'
 
-    rasputin_registry_upstream_username: ???
-    rasputin_registry_upstream_password: ???
+    rasputin_registry_upstream_username: '???'
+    rasputin_registry_upstream_password: '???'
 
-    rasputin_vaultwarden_admin_token: ???
-    rasputin_vaultwarden_hibp_api_key: ???
-    rasputin_vaultwarden_smtp_from: ???
-    rasputin_vaultwarden_smtp_host: ???
-    rasputin_vaultwarden_smtp_password: ???
-    rasputin_vaultwarden_smtp_username: ???
+    rasputin_vaultwarden_admin_token: '???'
+    rasputin_vaultwarden_hibp_api_key: '???'
+    rasputin_vaultwarden_smtp_from: '???'
+    rasputin_vaultwarden_smtp_host: '???'
+    rasputin_vaultwarden_smtp_password: '???'
+    rasputin_vaultwarden_smtp_username: '???'
 
-    rasputin_watchtower_slack_url: ???
+    rasputin_watchtower_slack_url: '???'
 
   hosts:
     rasputin: {}
