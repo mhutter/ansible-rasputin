@@ -1,0 +1,69 @@
+---
+- name: Check vault existence
+  ansible.builtin.stat:
+    path: "/usr/local/bin/vault.{{ vault_version }}"
+  register: r_stat_vault
+
+- when: not r_stat_vault.stat.exists
+  block:
+    - name: Download vault
+      ansible.builtin.get_url:
+        url: "{{ vault_download_url }}"
+        dest: "/tmp/{{ vault_archive }}"
+        checksum: "sha256:{{ vault_checksums_url }}"
+        owner: root
+        group: root
+        mode: "0600"
+
+    - name: Unpack vault
+      ansible.builtin.unarchive:
+        remote_src: true
+        src: "/tmp/{{ vault_archive }}"
+        dest: /tmp
+        creates: "/tmp/vault"
+
+    - name: Move vault binary
+      ansible.builtin.copy:
+        remote_src: true
+        src: "/tmp/vault"
+        dest: "/usr/local/bin/vault.{{ vault_version }}"
+        owner: root
+        group: root
+        mode: "0755"
+
+- name: Link vault binary
+  ansible.builtin.file:
+    src: "/usr/local/bin/vault.{{ vault_version }}"
+    dest: /usr/local/bin/vault
+    state: link
+  notify:
+    - restart vault
+
+- name: Prepare /etc/systemd/system/vault.service
+  ansible.builtin.template:
+    src: templates/vault.service
+    dest: /etc/systemd/system/vault.service
+  notify:
+    - reload vault
+
+- name: Prepare vault config
+  ansible.builtin.template:
+    src: templates/vault.hcl
+    dest: "{{ vault_config_path }}"
+  notify:
+    - reload vault
+
+- name: Enable and start vault
+  ansible.builtin.systemd:
+    name: vault
+    state: started
+    enabled: true
+    masked: false
+
+- name: Clean up download artifacts
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: absent
+  loop:
+    - "/tmp/{{ vault_archive }}"
+    - "/tmp/vault"

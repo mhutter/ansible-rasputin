@@ -25,3 +25,17 @@ minio_group: minio
 
 # Bitwarden
 rasputin_vaultwarden_root: "{{ rasputin_data_root }}/vaultwarden"
+
+# Vault
+# renovate: depName=hashicorp/vault
+vault_version: v1.11.0
+vault_version_no_v: "{{ vault_version | replace('v', '') }}"
+vault_archive: "vault_{{ vault_version_no_v }}_linux_arm.zip"
+vault_download_url: "https://releases.hashicorp.com/vault/{{ vault_version_no_v }}/{{ vault_archive }}"
+vault_checksums_url: "https://releases.hashicorp.com/vault/{{ vault_version_no_v }}/vault_{{ vault_version_no_v }}_SHA256SUMS"
+vault_config_path: /etc/vault.hcl
+vault_user: vault
+vault_group: vault
+vault_port: 8200
+vault_cluster_port: 8201
+vault_raft_path: "{{ rasputin_data_root }}/vault"

@@ -25,6 +25,8 @@
   loop:
     - user: "{{ minio_user }}"
       group: "{{ minio_group }}"
+    - user: "{{ vault_user }}"
+      group: "{{ vault_group }}"
 
 - name: Create data directories
   file:
@@ -52,12 +54,18 @@
       owner: root
       group: root
       mode: "0750"
+    - path: "{{ vault_raft_path }}"
+      owner: "{{ vault_user }}"
+      group: "{{ vault_group }}"
+      mode: "0700"
   tags: config
 
 - import_tasks: certificates.yml
   tags: certs
 - import_tasks: minio.yml
   tags: minio
+- import_tasks: vault.yml
+  tags: vault
 - import_tasks: haproxy.yml
   tags: haproxy
 

@@ -12,3 +12,14 @@
     name: minio
     state: restarted
     daemon_reload: true
+
+- name: restart vault
+  ansible.builtin.systemd:
+    name: vault
+    state: restarted
+    daemon_reload: true
+- name: reload vault
+  ansible.builtin.systemd:
+    name: vault
+    state: reloaded
+    daemon_reload: true
