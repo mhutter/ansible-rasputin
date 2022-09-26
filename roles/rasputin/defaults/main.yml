@@ -18,7 +18,7 @@ minio_console_url: minio.{{ rasputin_domain }}
 minio_server_port: 9000
 minio_console_port: 9001
 # renovate: depName=minio/minio
-minio_version: RELEASE.2022-09-22T18-57-27Z
+minio_version: RELEASE.2022-09-25T15-44-53Z
 minio_data_dir: "{{ rasputin_data_root }}/minio"
 minio_user: minio
 minio_group: minio
