@@ -28,7 +28,7 @@ rasputin_vaultwarden_root: "{{ rasputin_data_root }}/vaultwarden"
 
 # Vault
 # renovate: depName=hashicorp/vault
-vault_version: v1.13.3
+vault_version: v1.14.0
 vault_version_no_v: "{{ vault_version | replace('v', '') }}"
 vault_archive: "vault_{{ vault_version_no_v }}_linux_arm.zip"
 vault_download_url: "https://releases.hashicorp.com/vault/{{ vault_version_no_v }}/{{ vault_archive }}"
